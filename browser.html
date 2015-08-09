@@ -1,0 +1,60 @@
+<html>
+
+<head>
+	<title>ScanRootDir</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<style>
+		span#dir {
+			background-color: PowderBlue;
+		}
+	</style>
+
+</head>
+
+<body>
+	<h1>Scan Document Root Dir</h1>
+
+	<?php
+
+	echo "<p id='dir'>WTF</p>";
+
+	function scan_dir($dir, $is_recursive=True)
+	{
+		$files = scandir($dir);
+		foreach($files as $file)
+		{
+			if(is_dir($dir.'/'.$file))
+			{
+				if($file!='.' && $file!='..')
+				{	
+					echo "<li><span id='dir'>".$file."/</span></li>";
+
+					echo "<ul>";
+					scan_dir($file, $is_recursive);
+					echo "</ul>";
+				}
+			}
+			else
+			{
+				echo "<li>$file</li>";
+			}
+		}
+	}
+
+	$dir = $_SERVER["DOCUMENT_ROOT"];
+	$dir = "/users/zy/Sites";
+	#$dir = "/etc";
+
+	echo "<ul>";
+	scan_dir($dir);
+	echo "</ul>";
+
+	echo phpinfo();
+
+	?>
+
+</body>
+
+</html>
